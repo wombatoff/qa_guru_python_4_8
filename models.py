@@ -18,10 +18,7 @@ class Product:
         TODO Верните True если количество продукта больше или равно запрашиваемому
             и False в обратном случае
         """
-        if self.quantity >= quantity:
-            return True
-        else:
-            return False
+        return self.quantity >= quantity
 
     def buy(self, quantity):
         """
@@ -89,7 +86,10 @@ class Cart:
         В этом случае нужно выбросить исключение ValueError
         """
         for product, quantity in self.products.items():
-            if product.check_quantity(quantity):
-                product.buy(quantity)
-            else:
+            if not product.check_quantity(quantity):
                 raise ValueError("Недостаточное количество продукта на складе")
+
+        for product, quantity in self.products.items():
+            product.buy(quantity)
+
+        self.products.clear()
